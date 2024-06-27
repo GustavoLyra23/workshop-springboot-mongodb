@@ -6,16 +6,15 @@ import org.example.workshopmongodb.dto.UserDto;
 import org.example.workshopmongodb.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping(value = "/users")
+@RequestMapping(value = "v1/users")
 public class UserResource {
 
     @Autowired
@@ -29,11 +28,18 @@ public class UserResource {
         return ResponseEntity.ok().body(listDto);
     }
 
-    @GetMapping(value = "/{id}")
+    @GetMapping(value = "v1/{id}")
     public ResponseEntity<UserDto> findById(@PathVariable String id) {
         User user = userService.findById(id);
         return ResponseEntity.ok().body(new UserDto(user));
     }
 
+    @PostMapping
+    public ResponseEntity<Void> insert(@RequestBody UserDto user) {
+        User teste = userService.fromDto(user);
+        teste = userService.insert(teste);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(user.getId()).toUri();
+        return ResponseEntity.created(uri).build();
+    }
 }
 
