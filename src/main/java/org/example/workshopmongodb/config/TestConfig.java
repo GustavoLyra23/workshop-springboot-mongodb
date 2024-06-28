@@ -3,6 +3,7 @@ package org.example.workshopmongodb.config;
 import org.example.workshopmongodb.domain.Post;
 import org.example.workshopmongodb.domain.User;
 import org.example.workshopmongodb.dto.AuthorDto;
+import org.example.workshopmongodb.dto.CommentDto;
 import org.example.workshopmongodb.repository.PostRepository;
 import org.example.workshopmongodb.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,9 +43,17 @@ public class TestConfig implements CommandLineRunner {
 
         Post post2 = new Post(null, sdf.parse("23/03/2018"), "Bom dia", "Acordei feliz hoje", new AuthorDto(u2));
 
+        CommentDto c1 = new CommentDto("Boa viagem mano!", sdf.parse("21/03/2018"), new AuthorDto(u2));
+        CommentDto c2 = new CommentDto("Aproveite", sdf.parse("22/03/2018"), new AuthorDto(u3));
+        CommentDto c3 = new CommentDto("Tenha um otimo dia", sdf.parse("23/03/2018"), new AuthorDto(u2));
+
+        post.getCommentDtoList().addAll(Arrays.asList(c1, c2, c3));
+
         postRepository.saveAll(Arrays.asList(post, post2));
 
         u1.getPosts().addAll(Arrays.asList(post, post2));
         userRepository.save(u1);
+
+
     }
 }
