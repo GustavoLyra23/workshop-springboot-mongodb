@@ -52,7 +52,7 @@ public class UserResource {
     public ResponseEntity<Void> update(@PathVariable String id, @RequestBody UserDto objDto) {
         User obj = userService.fromDto(objDto);
         obj.setId(id);
-        userService.update(obj);d
+        userService.update(obj);
         return ResponseEntity.noContent().build();
     }
 }
