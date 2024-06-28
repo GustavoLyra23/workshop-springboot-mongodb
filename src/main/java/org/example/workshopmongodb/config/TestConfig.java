@@ -2,6 +2,7 @@ package org.example.workshopmongodb.config;
 
 import org.example.workshopmongodb.domain.Post;
 import org.example.workshopmongodb.domain.User;
+import org.example.workshopmongodb.dto.AuthorDto;
 import org.example.workshopmongodb.repository.PostRepository;
 import org.example.workshopmongodb.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,12 +36,12 @@ public class TestConfig implements CommandLineRunner {
         User u2 = new User(null, "Jane", "jane@example.com");
         User u3 = new User(null, "Jack", "jack@example.com");
 
-        Post post = new Post(null, sdf.parse("21/03/2018"), "Partiu viagem!",
-                "Vou viajar para Sao Paulo abracos.", u1);
+        userRepository.saveAll(Arrays.asList(u1, u2, u3));
 
-        Post post2 = new Post(null, sdf.parse("23/03/2018"), "Bom dia", "Acordei feliz hoje", u2);
+        Post post = new Post(null, sdf.parse("21/03/2018"), "Partiu viagem!", "Vou viajar para Sao Paulo abracos.", new AuthorDto(u1));
+
+        Post post2 = new Post(null, sdf.parse("23/03/2018"), "Bom dia", "Acordei feliz hoje", new AuthorDto(u2));
 
         postRepository.saveAll(Arrays.asList(post, post2));
-        userRepository.saveAll(Arrays.asList(u1, u2, u3));
     }
 }
